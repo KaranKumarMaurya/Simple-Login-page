@@ -1,32 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-class Profile extends StatefulWidget {
+import 'package:provider/provider.dart';
+
+
+class DataBaseService{
+  final String uid;
+  DataBaseService({required this.uid});
+}
+
+class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);
 
   @override
-  _ProfileState createState() => _ProfileState();
-}
-
-class _ProfileState extends State<Profile> {
-  Widget Txt(String Tet){
-    return Text(Tet,
-      style: TextStyle(
-        fontSize: 17,
-      ),);
-  }
-  Widget Details(){
-    return Container(
-      height: 50,
-      width: 370,
-
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-
-      ),
-    );
-  }
-  @override
   Widget build(BuildContext context) {
+
+    // final user=Provider.of<MyUser>(context);
+    // AuthService authService=AuthService();
+    // final uid=user.uid;
+    // DataBaseService dataBaseService=DataBaseService(uid:uid);
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Profile"),
@@ -49,26 +41,40 @@ class _ProfileState extends State<Profile> {
         ],
       ),
       body: Container(
-        width: 600,
-        color: Colors.tealAccent,
-        child: Column(
-          children: <Widget>[
-            SizedBox(height: 60,),
-            Txt("First Name"),
-            Details(),
-            SizedBox(height: 20,),
-            Txt("Last Name"),
-            Details(),
-            SizedBox(height: 20,),
-            Txt("Email-Id"),
-            Details(),
-            SizedBox(height: 20,),
-            Txt("Address"),
-            Details(),
-
-          ],
-        ),
+        // color: Colors.tealAccent,
+        // child: FlatButton(
+        //   // onPressed: ()async{
+        //   //   // dynamic names=await dataBaseService.getCurrentUserData() ;
+        //   //   if(names!=null){
+        //   //     String firstName=names[0];
+        //   //     String lastName=names[1];
+        //   //     print("firstName=$firstName");
+        //   //     print("lastName=$lastName");
+        //   //   }
+        //   // }, child: Text("Profle Data"),
+        //   color: Colors.teal,
+        // ),
       ),
     );
   }
+
+  //get user streams
+  // Stream<QuerySnapshot>get users{
+  //   return userCollection.snapshot();
+  // }
+  // Future getCurrentUserData() async{
+  //   try{
+  //
+  //     DocumentSnapshot ds=await userCollection.doc(uid).get();
+  //     String firstname=ds.get('firstName');
+  //     String lastname=ds.get('lastName');
+  //     return [firstname,lastname];
+  //   }catch(e){
+  //     print(e.toString());
+  //     return null;
+  //   }
+  // }
 }
+
+
+

@@ -1,12 +1,26 @@
+
 import 'package:flutter/material.dart';
-class LoginPage extends StatefulWidget {
 
-
+class Login extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _LoginState createState() => _LoginState();
 }
+final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginState extends State<Login> {
+
+  TextEditingController emailController=TextEditingController();
+  TextEditingController passController=TextEditingController();
+
+  void validation() {
+    final FormState? _form = _formKey.currentState;
+    if (_form!.validate()) {
+      print("Yes");
+    } else {
+      print("No");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,19 +28,28 @@ class _LoginPageState extends State<LoginPage> {
 
         body: Center(
           child: Container(
-            height: 350,
+            height: 390,
             width: 350,
             color: Colors.teal,
             child: Form(
+              key: _formKey,
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(20, 50, 20, 0),
                 child: Column(
                     children: <Widget>[
-
                       Row(
                         children: <Widget>[
                           Icon(Icons.account_circle_outlined,size: 25,),
                           Flexible(child: TextFormField(
+                            validator: (value) {
+                              if (value == "") {
+                                return "Please fill Username";
+                              } else if (value!.length < 6) {
+                                return "Invalid Username";
+                              }
+                              return "";
+                            },
+                            controller: emailController,
                             decoration: InputDecoration(
                                 fillColor: Colors.white,
                                 filled: true,
@@ -49,6 +72,16 @@ class _LoginPageState extends State<LoginPage> {
                         children: <Widget>[
                           Icon(Icons.vpn_key,size: 25,),
                           Flexible(child: TextFormField(
+                            key: _formKey,
+                            validator: (value) {
+                              if (value == "") {
+                                return "Please fill Password";
+                              } else if (value!.length < 6) {
+                                return "Invalid Password";
+                              }
+                              return "";
+                            },
+                            controller: passController,
                             decoration: InputDecoration(
                                 fillColor: Colors.white,
                                 filled: true,
@@ -65,9 +98,11 @@ class _LoginPageState extends State<LoginPage> {
                         ],
                       ),
 
-
                       SizedBox(height: 60,),
-                      MaterialButton(onPressed: (){},
+                      MaterialButton(onPressed: () async{
+                       // LoginUser();
+
+                      },
                         color: Colors.white,
                         child: Text("Log In",
                           style: TextStyle(
@@ -84,4 +119,15 @@ class _LoginPageState extends State<LoginPage> {
         )
     );
   }
+  // Future LoginUser() async{
+  //   FirebaseAuth auth=FirebaseAuth.instance;
+  //
+  //   try{
+  //     await auth.createUserWithEmailAndPassword(email:emailController.text
+  //         ,password:passController.text).then((signedInUser)=>{print("success")}
+  //     );
+  //   }catch(e){
+  //     print(e);
+  //   }
+  // }
 }

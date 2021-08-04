@@ -1,5 +1,9 @@
 
+import 'package:application/profile.dart';
+import 'package:application/signUp.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -9,8 +13,8 @@ final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
 class _LoginState extends State<Login> {
 
-  TextEditingController emailController=TextEditingController();
-  TextEditingController passController=TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passController = TextEditingController();
 
   void validation() {
     final FormState? _form = _formKey.currentState;
@@ -39,7 +43,7 @@ class _LoginState extends State<Login> {
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          Icon(Icons.account_circle_outlined,size: 25,),
+                          Icon(Icons.account_circle_outlined, size: 25,),
                           Flexible(child: TextFormField(
                             validator: (value) {
                               if (value == "") {
@@ -70,7 +74,7 @@ class _LoginState extends State<Login> {
                       Row(
 
                         children: <Widget>[
-                          Icon(Icons.vpn_key,size: 25,),
+                          Icon(Icons.vpn_key, size: 25,),
                           Flexible(child: TextFormField(
                             key: _formKey,
                             validator: (value) {
@@ -99,14 +103,14 @@ class _LoginState extends State<Login> {
                       ),
 
                       SizedBox(height: 60,),
-                      MaterialButton(onPressed: () async{
-                       // LoginUser();
+                      MaterialButton(onPressed: () async {
+                        // LoginUser();
 
                       },
                         color: Colors.white,
                         child: Text("Log In",
                           style: TextStyle(
-                              fontSize:20,
+                              fontSize: 20,
                               fontWeight: FontWeight.bold
 
 
@@ -119,14 +123,39 @@ class _LoginState extends State<Login> {
         )
     );
   }
-  // Future LoginUser() async{
-  //   FirebaseAuth auth=FirebaseAuth.instance;
+  void login(){
+    if(_formKey.currentState!.validate()){
+      setState(() {
+        isLoading=true;
+      });
+      FirebaseAuth.instance.signInWithEmailAndPassword(email: emailController.text, password: passController.text).then((user){
+        setState(() {
+          isLoading = false;
+        });
+        Fluttertoast.showToast(msg:"Login Success");
+
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_)=>Profile()), (route) => false);
+      }).catchError((onError){
+        setState(() {
+          isLoading=false;
+        });
+        Fluttertoast.showToast(msg:"error"+onError.toString());
+      });
+    }
+  }
   //
-  //   try{
-  //     await auth.createUserWithEmailAndPassword(email:emailController.text
-  //         ,password:passController.text).then((signedInUser)=>{print("success")}
+  // Future LoginUser() async {
+  //   FirebaseAuth auth = FirebaseAuth.instance;
+  //
+  //   try {
+  //     await auth.createUserWithEmailAndPassword(email: emailController.text
+  //         , password: passController.text).then((signedInUser) =>
+  //     {
+  //       print("success"),
+  //     Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>SignUp())),
+  //     }
   //     );
-  //   }catch(e){
+  //   } catch (e) {
   //     print(e);
   //   }
   // }

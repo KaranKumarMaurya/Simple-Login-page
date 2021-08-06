@@ -8,7 +8,7 @@ Future<String> createAccount(
             .createUserWithEmailAndPassword(email: _email, password: _password))
         .user;
 
-    await signUpUser(uid: user!.uid)
+    await SignUpUser(uid: user!.uid)
         .signUpData(firstName, lastName, _email, _password);
     return "null";
   } on FirebaseAuthException catch (e) {
@@ -23,9 +23,9 @@ Future<String> createAccount(
   }
 }
 
-class signUpUser {
+class SignUpUser {
   final String uid;
-  signUpUser({required this.uid});
+  SignUpUser({required this.uid});
   var signUpCollections = FirebaseFirestore.instance.collection("Users");
 
   Future signUpData(

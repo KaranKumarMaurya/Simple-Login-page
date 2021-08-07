@@ -106,7 +106,8 @@ class _LoginState extends State<Login> {
                             email: emailController.text,
                             password: passController.text
                         ).then((FirebaseUser) {
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Profile()));
+                          var user = FirebaseAuth.instance.currentUser;
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Profile(uid: user!.uid)));
                         }).catchError((e){
                           print(e);
                         });

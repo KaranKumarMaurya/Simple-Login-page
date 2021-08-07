@@ -1,4 +1,5 @@
 import 'package:application/Auth.dart';
+import 'package:application/login.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
@@ -35,6 +36,7 @@ class _SignUpState extends State<SignUp> {
         await createAccount(firstName, lastName, email, password);
     if (createAccountData != null) {
       print("User created successfully");
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Login()));
     } else {
       Navigator.pop(context);
     }

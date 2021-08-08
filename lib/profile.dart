@@ -26,6 +26,17 @@ class _ProfileState extends State<Profile> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        actions: <Widget>[
+          FlatButton(
+            textColor: Colors.white,
+            onPressed: () {
+              doUserLogout();
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Login()));
+            },
+            child: Text("Log Out"),
+            shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
+          ),
+        ],
         title: Text("Profile"),
       ),
       body: body(),
@@ -36,49 +47,42 @@ class _ProfileState extends State<Profile> {
 
     var stream=FirebaseFirestore.instance.collection("Users").doc(uid).collection("signup").snapshots();
 
-    return Column(
-      children: [
-        StreamBuilder(
-          stream: stream,
-          builder: (BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot) {
-           switch(snapshot.connectionState){
-             case ConnectionState.none:
-             case ConnectionState.waiting:
-               return center("Please wait....");
-             default:
-               if(snapshot.hasData){
-                 if(snapshot.data!.docs.length == 0) {
-                   return center(" No Record Found");
-                 }else{
-                   return ListView.builder(
-                       scrollDirection: Axis.vertical,
-                       controller: _controller,
-                       physics: ScrollPhysics(),
-                       itemCount:snapshot.data!.docs.length,
-                       itemBuilder: (BuildContext context,int index){
-                         String firstName=snapshot.data!.docs[index]["First Name"];
-                         String email=snapshot.data!.docs[index]["Email"];
-                         String lastName=snapshot.data!.docs[index]["Last Name"];
-                         String password=snapshot.data!.docs[index]["Password"];
-                         return Text("$firstName \n $email \n $lastName \n $password");}
-                   );
+    return StreamBuilder(
+              stream: stream,
+              builder: (BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot) {
+               switch(snapshot.connectionState){
+                 case ConnectionState.none:
+                 case ConnectionState.waiting:
+                   return center("Please wait....");
+                 default:
+                   if(snapshot.hasData){
+                     if(snapshot.data!.docs.length == 0) {
+                       return center(" No Record Found");
+                     }else{
+                       return ListView.builder(
+                           scrollDirection: Axis.vertical,
+                           controller: _controller,
+                           physics: ScrollPhysics(),
+                           itemCount:snapshot.data!.docs.length,
+                           itemBuilder: (BuildContext context,int index){
+                             String firstName=snapshot.data!.docs[index]["First Name"];
+                             String email=snapshot.data!.docs[index]["Email"];
+                             String lastName=snapshot.data!.docs[index]["Last Name"];
+                             String password=snapshot.data!.docs[index]["Password"];
+                             return Text(" $firstName \n $email \n $lastName \n $password");}
+                       );
 
-                 }
-               } else{
-                 return center("Getting Error");
+                     }
+                   } else{
+                     return center("Getting Error");
+                   }
+
                }
+              },
 
-           }
-          },
+            );
 
-        ),
-        MaterialButton(onPressed: (){
-          doUserLogout();
-        },
-          child: Text("Log Out"),
-        ),
-      ],
-    );
+
   }
 
   //Center part

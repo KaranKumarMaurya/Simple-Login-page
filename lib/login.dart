@@ -1,4 +1,3 @@
-
 import 'package:application/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -74,7 +73,7 @@ class _LoginState extends State<Login> {
                         children: <Widget>[
                           Icon(Icons.vpn_key, size: 25,),
                           Flexible(child: TextFormField(
-                            key: _formKey,
+
                             validator: (value) {
                               if (value == "") {
                                 return "Please fill Password";
@@ -127,5 +126,6 @@ class _LoginState extends State<Login> {
         )
     );
   }
+
 
 }

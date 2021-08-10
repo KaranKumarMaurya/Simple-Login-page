@@ -206,28 +206,3 @@ class _SignUpState extends State<SignUp> {
 }
 
 
-//Firebase Authentication
-// class signUpUser{
-// final String uid;
-//
-// FirebaseAuth auth=FirebaseAuth.instance;
-// // User user= await FirebaseAuth.instance.currentUser;
-//
-// try{
-// var signUpCollections = FirebaseFirestore.instance.collection("users");
-// await auth.createUserWithEmailAndPassword(email:emailController.text
-// ,password:passController.text,).then((signedInUser)=>
-// {
-// signUpCollections.doc(uid).collection('signup').add({
-// 'email-id': emailController.text,
-// 'first name':fnameController.text,
-// 'last name':lnameController.text,
-// }).then((signedInUser) => {
-// print("successful"),
-// Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Login())),
-// } ),
-// } );
-// }catch(e){
-// print(e);
-// }
-// }
